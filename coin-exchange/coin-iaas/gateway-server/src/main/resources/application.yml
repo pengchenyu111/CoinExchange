@@ -1,0 +1,23 @@
+server:
+  port: 80
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos-server:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: admin-service_router
+          uri: lb://admin-service   # 转发到那个目的地
+          predicates:
+            - Path=/admin/**
+        - id: test_router
+          uri: http://www.aliyun.com
+          predicates:
+            - Path=/product
