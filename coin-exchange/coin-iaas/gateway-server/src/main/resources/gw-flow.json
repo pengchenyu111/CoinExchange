@@ -7,7 +7,7 @@
   },
   {
     "resource": "admin-service-api",
-    "resourceMode": "1",
+    "resourceMode": 1,
     "intervalSec": 60,
     "count": 1
   }
