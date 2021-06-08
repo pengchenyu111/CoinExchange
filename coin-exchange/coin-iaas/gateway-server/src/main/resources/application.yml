@@ -21,3 +21,16 @@ spring:
           uri: http://www.aliyun.com
           predicates:
             - Path=/product
+    # 通过网关来完成对2种维度的限流： 网关维度 + API 分组
+    sentinel:
+      filter:
+        enabled: true
+#      transport:
+#        dashboard: sentinel-server:8858  # sentinel-dashboard 放在ecs 里面
+      datasource:
+        ds1.file:
+          file: classpath:gw-flow.json
+          ruleType: gw_flow
+        ds2.file:
+          file: classpath:api-group.json
+          ruleType: gw_api_group
