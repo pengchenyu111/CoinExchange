@@ -41,3 +41,7 @@ spring:
           ruleType: gw_api_group
       transport:
         dashboard: sentinel-server:8858  # sentinel-dashboard 放在ecs里面
+  redis:
+    host: redis-server
+    port: 6380
+    password: Pcy90321.
