@@ -17,6 +17,8 @@ spring:
           uri: lb://admin-service   # 转发到那个目的地
           predicates:
             - Path=/admin/**
+          filters:
+            - StripPrefix=1
         - id: test_router
           uri: http://www.aliyun.com
           predicates:
