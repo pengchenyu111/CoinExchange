@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * 自动填充类
+ */
 @Component
 public class AutoFillHandler implements MetaObjectHandler {
 
@@ -20,46 +23,48 @@ public class AutoFillHandler implements MetaObjectHandler {
      *
      * @param metaObject 元对象
      */
-
-
     @Override
     public void insertFill(MetaObject metaObject) {
 
         Long userId = getCurrentUserId();
-        this.strictInsertFill(metaObject, "createBy", Long.class, userId); // 创建人
-        this.strictInsertFill(metaObject, "created", Date.class, new Date()); // 创建时间
-        this.strictInsertFill(metaObject, "lastUpdateTime", Date.class, new Date()); // 修改时间
+        // 创建人
+        this.strictInsertFill(metaObject, "createBy", Long.class, userId);
+        // 创建时间
+        this.strictInsertFill(metaObject, "created", Date.class, new Date());
+        // 修改时间
+        this.strictInsertFill(metaObject, "lastUpdateTime", Date.class, new Date());
     }
 
 
     /**
      * 更新元对象字段填充（用于更新时对公共字段的填充）
-     * //1 修改人
-     * // 2 修改时间
+     * 1 修改人
+     * 2 修改时间
      *
      * @param metaObject 元对象
      */
     @Override
     public void updateFill(MetaObject metaObject) {
         Long userId = getCurrentUserId();
-
-        this.strictUpdateFill(metaObject, "modifyBy", Long.class, userId); // 修改人
-        this.strictUpdateFill(metaObject, "lastUpdateTime", Date.class, new Date()); // 修改时间
+        this.strictUpdateFill(metaObject, "modifyBy", Long.class, userId);
+        this.strictUpdateFill(metaObject, "lastUpdateTime", Date.class, new Date());
     }
 
     /**
      * 获取当前操作的用户对象
+     *
      * @return
      */
     private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 从安全的上下文里面获取用户的ud
-        if(authentication!=null){
+        // 从安全的上下文里面获取用户的ud
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
             String s = authentication.getPrincipal().toString(); // userId ->Long  anonymousUser
-            if("anonymousUser".equals(s)){ //是因为用户没有登录访问时,就是这个用户
-                return null ;
+            if ("anonymousUser".equals(s)) { //是因为用户没有登录访问时,就是这个用户
+                return null;
             }
-            return Long.valueOf(s) ;
+            return Long.valueOf(s);
         }
-        return null ;
+        return null;
     }
 }
